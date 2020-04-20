@@ -68,5 +68,9 @@ export default {
     */
     extend (config, ctx) {
     }
+  },
+  server: {
+    port: 80, // デフォルト: 3000
+    host: '0.0.0.0' // デフォルト: localhost
   }
 }
