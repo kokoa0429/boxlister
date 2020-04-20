@@ -1,72 +1,57 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        boxlister
-      </h1>
-      <h2 class="subtitle">
-        My exceptional Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+  <div>
+    <BoxEdit />
+    <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <div class="navbar-item" style="width: 100%">
+          <img src="/logo.png" width="28" height="28">
+          <div class="is-size-5">
+            BoxLister
+          </div>
+          <div class="control" style="padding-left: 2em; width:100%">
+            <input class="input" type="text" placeholder="検索(まだ)">
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="section">
+      <div class="columns is-multiline is-1">
+        <Box v-for="i in data" :key="i._id" v-bind:boxData="i" class="column is-4-desktop is-6-tablet" />
       </div>
     </div>
+    <button @click="newBox()" class="button is-success is-rounded is-medium" style="position: fixed; bottom: 30px; right: 30px" >
+      箱を追加
+    </button>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import { mapState } from 'vuex'
+import Box from '../components/box.vue'
+import BoxEdit from '../components/boxedit.vue'
 
 export default {
   components: {
-    Logo
+    Box,
+    BoxEdit
+  },
+  computed: {
+    ...mapState([
+      'data'
+    ])
+  },
+  created () {
+    this.$store.dispatch('getData')
+  },
+  methods: {
+    newBox () {
+      // alert('hei')
+      this.$store.dispatch('newBox')
+    }
   }
 }
 </script>
-
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+@import "../node_modules/bulma-extensions/bulma-divider/dist/css/bulma-divider.min.css";
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
 </style>
